@@ -84,7 +84,7 @@ router.post('/update', (req, res) => {
         price,
         typeName,
         typeId,
-        // img,
+        img,
         _id
     } = req.body;
     console.log(req.body);
@@ -93,7 +93,7 @@ router.post('/update', (req, res) => {
         price,
         typeName,
         typeId,
-        // img,
+        img,
     }, (err, data) => {
         if (err) console.log(err);
         res.send({
@@ -139,6 +139,16 @@ router.get('/addMockData', (req, res) => {
             data: err,
         });
     });
+});
+
+router.get('/getAllFoodData', (req, res) => {
+    foodModel.find({}).then((data) => {
+        res.send({
+            err: 0,
+            msg: 'get all data success',
+            data,
+        })
+    })
 });
 
 export default router;

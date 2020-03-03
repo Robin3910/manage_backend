@@ -7,7 +7,8 @@ const type = ['jpg', 'png', 'jpeg', 'gif'];
 
 const storage = Multer.diskStorage({
     destination: (req, file: Express.Multer.File, callback) => {
-        callback(null, path.resolve(process.cwd(), 'upload/img'));
+        // 必须传绝对路径
+        callback(null, path.resolve(process.cwd(), './src/static/upload/img'));
     },
     filename: (req, file: Express.Multer.File, callback: (error: (Error | null), filename: string) => void) => {
         const type = file.mimetype.split('/')[1];
@@ -26,7 +27,6 @@ const fileFilterFunc = (req: Request, file: Express.Multer.File, callback: FileF
     }
 };
 
-// 必须传绝对路径，限制大小500KB以及文件类型
 const multer = Multer({
     storage,
     fileFilter: fileFilterFunc
@@ -38,11 +38,13 @@ router.post('/uploadImg', multer.single('file'), function (req, res, next) {
 
     console.log(req.file);
     const file: Express.Multer.File = req.file;
+    const filePathArr = file.path.split('/');
+    const filePath = filePathArr[filePathArr.length - 1];
     if (file) {
         res.send({
             err: 0,
             msg: 'upload img success',
-            data: path.relative(process.cwd(), file.path)
+            data: filePath
         });
     } else {
         res.send({

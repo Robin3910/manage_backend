@@ -4,6 +4,7 @@ node_modules
 /dist-prod
 /dist-dev
 /dist-test
+/src/static/upload
 .history
 
 # local env files
